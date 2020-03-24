@@ -1,12 +1,18 @@
 # zona-analysis
 
-Manuscript entitled: Direct visualization and characterization of the human zona incerta and surrounding structures
-* Preprint available at: 
+*Direct visualization and characterization of the human zona incerta and surrounding structures*
 
-Data available on OSF.io at: https://osf.io/c8p5n/
+Preprint available at: 
 
-Notebooks for the associated manuscript:
-1. 
-2. 02_voxel_overlap_segmentations = Voxel Overlap for Segmentations
+Imaging Data available on OSF.io at: https://osf.io/c8p5n/
 
-## Notebook 1
+Scripts for template creation, volumetric analysis, and point analysis in `scripts/`
+
+Jupyter Notebooks for the associated manuscript in `notebooks`:
+
+  * `01_template_creation.ipynb` -- Template Creation Validation using AFIDs http://dx.doi.org/10.1002/hbm.24693 
+  * `02_voxel_overlap_segmentations.ipynb` -- Voxel Overlap for Segmentations
+  * `03_regions_of_interest.ipynb` -- Regions of Interest
+  * `03_regions_of_interest_MSTRCHT.ipynb -- Replication of ROI analysis in Maastricht dataset
+  * `04_psa_analysis.ipynb` -- Point analysis in the posterior subthalamic area
+
