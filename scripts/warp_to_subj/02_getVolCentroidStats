@@ -1,0 +1,50 @@
+#!/bin/bash
+
+in_seg_dir=/home/jclau/GitHub/zona-analysis/data/
+
+out_seg_dir=/project/6007967/jclau/zona/segmentations/warped_seg
+
+input_csv_dir=/home/jclau/GitHub/snsx32/input/input_csv
+
+in_t1map_dir=/project/6007967/cfmm-bids/Khan/SNSX_7T/derivatives/gradcorrect_0.0.1h/
+
+out_csv_dir=$in_seg_dir/warped_seg_csv
+
+mkdir -p $out_csv_dir
+
+for in_seg in $in_seg_dir/consensus_seg/fuzzy/*.nii.gz
+do
+
+folder_name=${in_seg%/*}
+folder_name=${folder_name##*/}
+
+seg_name=${in_seg##*/}
+seg_name=${seg_name%%.*}
+
+roi=`echo $seg_name | cut -d'_' -f2`
+side=`echo $seg_name | cut -d'_' -f3`
+
+out_csv=$out_csv_dir/${seg_name}.csv
+
+#loop through subjects to populate csv
+echo "subjid,roi,side,vol_voxels,vol_mm,centroid_x,centroid_y,centroid_z,mean,sd" > $out_csv
+
+for subj in `cat /home/jclau/GitHub/snsx32/input/input_csv/snsx32.csv`
+do
+
+in_subj_dir=${out_seg_dir}/${subj}/binary/
+in_subj_t1map_dir=${in_t1map_dir}/${subj}/anat/
+in_t1map=${in_subj_t1map_dir}/${subj}_acq-MP2RAGE_run-01_T1map.nii.gz
+in_seg=${in_subj_dir}/${subj}_${seg_name}_bin.nii.gz
+
+#compute volume, centroid
+vol=`fslstats $in_seg -V | sed 's/\ /,/g'`
+centroid=`fslstats $in_seg -c | sed 's/\ /,/g'`
+mean=`fslstats $in_t1map -k $in_seg -m | sed 's/\ /,/g'`
+sd=`fslstats $in_t1map -k $in_seg -s | sed 's/\ /,/g'`
+#echo "${subj},${roi},${side},${vol}${centroid}${mean}${sd}"
+echo "${subj},${roi},${side},${vol}${centroid}${mean}${sd}" >> $out_csv
+
+done #subj
+
+done

@@ -1,0 +1,20 @@
+#!/bin/bash
+
+# to generate:  ./genMontage /project/6007967/jclau/snsx32/snapshots/{axial,coronal}
+
+if [ "$#" -lt 1 ]
+then
+ echo "Usage $0 <in_folder>" 
+ echo "  writes output in 8x4 montage to <in_folder>.montage.png"
+ exit 1
+fi
+
+
+for in_folder in $@
+do
+
+out_img=${in_folder%/}.montage.png
+
+montage -tile 8x4 $in_folder/*.png -geometry 2000x1500 $out_img
+
+done

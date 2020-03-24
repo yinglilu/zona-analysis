@@ -1,0 +1,5 @@
+roi,side,jaccard,kappa
+RN,left,0.95±0.03,0.98±0.02
+RN,right,0.95±0.03,0.98±0.01
+STN,left,0.90±0.10,0.94±0.06
+STN,right,0.89±0.10,0.94±0.05
