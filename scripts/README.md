@@ -19,9 +19,10 @@ find ~/projects/rrg-akhanf/cfmm-bids/Khan/SNSX_7T/derivatives/gradcorrect/ -name
 
 * DICOM SERVER --> BIDS
 * gradunwarp
-* preprocessing of datasets (MP2RAGE, SPACE): see `scripts/prep`
-* template building: see `scripts/template_building`
-  1. full resolution
+* preprocessing of datasets (MP2RAGE, SPACE):
+  * https://github.com/khanlab/mp2rage_correction for MP2RAGE + SA2RAGE correction
+  * https://github.com/khanlab/prepT2space for T2SPACE preprocessing
+* template building: see `template_building`
 
 ## Template Building: Whole Brain Full Resolution
 
