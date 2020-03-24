@@ -4,6 +4,8 @@
 
 Preprint available at: 
 
+![image](figures/3DSlicer_cZI/3DSlicer_cZI_all.png)
+
 ## Data
 
 Imaging Data available on OSF.io at: https://osf.io/c8p5n/
