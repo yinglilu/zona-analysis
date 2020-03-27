@@ -2,7 +2,7 @@
 
 **Direct visualization and characterization of the human zona incerta and surrounding structures**
 
-Preprint available at: 
+Preprint available at: https://www.biorxiv.org/content/10.1101/2020.03.25.008318v1
 
 ![image](figures/3DSlicer_cZI/3DSlicer_cZI_all.png)
 
