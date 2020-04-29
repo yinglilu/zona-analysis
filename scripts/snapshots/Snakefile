@@ -1,0 +1,61 @@
+import os
+import csv
+
+configfile: "config.yaml"
+
+#debug
+#subjs = ["sub-C001", "sub-C002"]
+
+#tsv: 
+# participant_id	sex	age
+# sub-C001	M	28
+# sub-C002	F	21
+
+subjs=[]
+with open(config['participants_tsv']) as f:
+    reader = csv.reader(f,delimiter="\t")
+    for lines in reader:
+        #first column
+        subjs.append(lines[0])
+#cut off 'participant_id'    
+subjs=subjs[1:]     
+
+#csv:
+#   sub-C001
+#   sub-C002
+#   ...
+#with open(config['input_csv']) as f:
+#    subjs = f.readlines()
+#subjs = [line.rstrip('\n') for line in subjs]
+
+rule all:
+    input:
+        expand("{out_folder}/axial/{subj}_axial.png",out_folder=config["out_folder"],subj=subjs),
+        expand("{out_folder}/coronal/{subj}_coronal.png",out_folder=config["out_folder"],subj=subjs)
+rule genSegSnap:
+    params:
+        execpath = workflow.basedir,
+        log_out_folder=config['log_out_folder'],
+        color_RRGGBB_txt=config['color_RRGGBB_txt'],
+        anat_opts=config['anat_opts'],
+        #segs_cmd="{subj}/fuzzy/{subj}_space-templateAffineOnly_abc.nii.gz"
+        #segs_cmd=["{subj}/fuzzy/{subj}_space-templateAffineOnly_{label}.nii.gz" for label in config['labels']]
+        segs_cmd=lambda wildcards:' -s '+ ' -s '.join ( \
+            [os.path.join(config['data_folder'],wildcards.subj,'fuzzy', wildcards.subj+e) \
+            for e in ["_space-templateAffineOnly_{}.nii.gz".format(label) for label in config['labels'] \
+            ] ] )
+    input:
+        anat=os.path.join(config['data_folder'],"{subj}/anat/{subj}_acq-MP2RAGE_space-templateAffineOnly_T1map.nii.gz"),
+    output:
+        axial_out="{out_folder}/axial/{subj}_axial.png",
+        coronal_out="{out_folder}/coronal/{subj}_coronal.png"
+    #log:
+    #    axial_log=os.path.join(config['log_out_folder'],"axial","{subj}_axial.png.log")
+    #    coronal_log=os.path.join(config['log_out_folder'],"axial","{subj}_coronal.png.log")
+    shell:
+        "{params.execpath}/genSegSnap.sh -a {input.anat} -c {params.color_RRGGBB_txt} -o {output.axial_out} {params.segs_cmd} -z  -A {params.anat_opts}"
+        "{params.execpath}/genSegSnap_hackCoronal.sh -a {input.anat} -c {params.color_RRGGBB_txt} -o {output.coronal_out} {params.segs_cmd} -y  -A {params.anat_opts}"
+
+        #log
+        #"{params.execpath}/genSegSnap.sh -a {input.anat} -c {params.color_RRGGBB_txt} -o {output.axial_out} {params.segs_cmd} -z  -A {params.anat_opts} > {log.axial_log}"
+        #"{params.execpath}/genSegSnap_hackCoronal.sh -a {input.anat} -c {params.color_RRGGBB_txt} -o {output.coronal_out} {params.segs_cmd} -y  -A {params.anat_opts} > {log.coronal_log}"

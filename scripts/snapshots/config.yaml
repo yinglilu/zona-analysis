@@ -1,0 +1,19 @@
+
+#BIDS data folder
+data_folder: /project/6007967/jclau/snsx32/qmaps/snsx32_qmaps_v0.2_i09_affineOnly
+
+#csv file
+participants_tsv: ./participants.tsv
+
+#output snapshots folder
+out_folder: /project/6007967/jclau/snsx32/snapshots
+
+#output logs folder
+log_out_folder: /home/ylu/test/logs
+
+
+labels: ["raters_RN_L", "raters_RN_R", "raters_STN_L", "raters_STN_R", "exprater_ZI_L", "exprater_ZI_R", "exprater_fct_L","exprater_fct_R"]
+
+color_RRGGBB_txt: colors_RRGGBB.txt
+
+anat_opts: --displayRange 1000 2000 --interpolation spline
